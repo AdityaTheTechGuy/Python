@@ -1,0 +1,5 @@
+# Python temporary files
+__pycache__/
+
+# VS Code editor settings
+.vscode/
