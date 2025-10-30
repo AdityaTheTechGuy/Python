@@ -12,7 +12,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import ConfusionMatrixDisplay
 from sklearn.metrics import roc_curve, auc
 import joblib
-
+from sklearn.model_selection import GridSearchCV
 
 df_Train = pd.read_csv('TitanicTrain.csv')
 df_Test = pd.read_csv('TitanicTest.csv')
@@ -46,9 +46,33 @@ scaler = StandardScaler()
 X_train_scaled = scaler.fit_transform(X_train)
 X_val_scaled = scaler.transform(X_val)
 
+# Applying Grid Search for Hyperparameter Tuning to increase model performance
+param_grid = {
+    'C': [0.01,0.1,1,10,100],
+    'penalty' : ['l1','l2'],
+    'solver' : ['liblinear','saga'],
+    'max_iter': [100,200,500,1000]
+}
+
+base_model = LogisticRegression()
+grid_search = GridSearchCV(
+    estimator=base_model,
+    param_grid=param_grid,
+    scoring='f1',
+    cv=10,
+    n_jobs=-1,
+    verbose=1
+)
+
+grid_search.fit(X_train_scaled, Y_train)
+
+print("Best Hyperparameters:", grid_search.best_params_)
+print("Best cross validation Score:", grid_search.best_score_)
+
+
+
 # Training the Model
-model = LogisticRegression(max_iter=1000)
-model.fit(X_train_scaled, Y_train)
+model = grid_search.best_estimator_
 
 # Evaluating the Model on Training Data
 Y_pred = model.predict(X_train_scaled)
@@ -78,7 +102,7 @@ X_test = df_Test[X_full_train.columns]
 X_test_scaled = scaler.transform(X_test)
 
 # Train the final model
-finalmodel = LogisticRegression(max_iter=1000)
+finalmodel = LogisticRegression(**grid_search.best_params_, class_weight='balanced')
 finalmodel.fit(X_full_train_scaled, Y_full_train)
 
 # Save the model
