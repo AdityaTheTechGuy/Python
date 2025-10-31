@@ -94,8 +94,8 @@ coef_df = pd.DataFrame({
 st.bar_chart(data=coef_df, x='Feature', y='Coefficient', use_container_width=True)
 st.info("""
 **Interpretation Guide:**
-- Bars on the **right (positive)** → increase survival likelihood.
-- Bars on the **left (negative)** → decrease survival likelihood.
+- Vertically **Up** bars **(positive)** → increase survival likelihood.
+- Vertically **down** bars **(negative)** → decrease survival likelihood.
 - Larger bar = stronger influence.
 """)
 
