@@ -91,14 +91,7 @@ coef_df = pd.DataFrame({
     'Coefficient': coefficients
 }).sort_values(by='Coefficient', ascending=False)
 
-st.dataframe(coef_df, hide_index=True)
-
-fig, ax = plt.subplots()
-ax.barh(coef_df['Feature'], coef_df['Coefficient'], color='skyblue')
-ax.set_xlabel('Coefficient Value')
-ax.set_ylabel('Feature')
-ax.set_title('Feature Impact on survival(Logistic Regression)')
-st.pyplot(fig)
+st.bar_chart(data=coef_df, x='Feature', y='Coefficient', use_container_width=True)
 
 # Footer
 st.markdown("---")
