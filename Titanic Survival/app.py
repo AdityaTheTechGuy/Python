@@ -1,6 +1,8 @@
 import streamlit as st
 import joblib
 import pandas as pd
+import numpy as np
+import matplotlib as plt
 
 # Load the trained model and scaler
 model = joblib.load('Titanic Survival/titanic_logistic_regression_model.pkl')
@@ -76,6 +78,22 @@ if st.button("Predict Survival"):
     except Exception as e:
         st.error(f"An error occurred during prediction: {e}")
         
+
+# Feature Importance Visualisation for user
+st.markdown("---")
+st.caption("Feature Importance")
+
+features = ['Pclass', 'Sex', 'Age', 'SibSp', 'Parch', 'Fare', 'Embarked']
+coefficients = model.coef_[0]
+
+coef_df = pd.DataFrame({
+    'Feature': features,
+    'Coefficient': coefficients
+}).sort_values(by='Coefficient', ascending=False)
+
+st.bar_chart(data=coef_df, x='Feature', y='Coefficient', use_container_width=True)
+
+
 # Footer
 st.markdown("---")
 st.caption("Developed by Aditya Gupta 🚀")
