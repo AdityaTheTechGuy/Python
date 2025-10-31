@@ -54,7 +54,7 @@ param_grid = {
     'max_iter': [100,200,500,1000]
 }
 
-base_model = LogisticRegression()
+base_model = LogisticRegression(class_weight='balanced')
 grid_search = GridSearchCV(
     estimator=base_model,
     param_grid=param_grid,
@@ -119,7 +119,7 @@ Y_pred_test = finalmodel.predict(X_test_scaled)
 
 # Confusion matrix and Classification Report on Full Training Data
 print("Confusion Matrix and Classification Report on Full Training Data:")
-print(confusion_matrix(Y_full_train, Y_full_pred))
+print(confusion_matrix(Y_full_train, Y_full_pred)) 
 print(classification_report(Y_full_train, Y_full_pred))
 
 # model coefficients
