@@ -3,8 +3,8 @@ import joblib
 import pandas as pd
 
 # Load the trained model and scaler
-model = joblib.load('titanic_logistic_regression_model.pkl')
-scaler = joblib.load('titanic_scaler.pkl')
+model = joblib.load('Titanic Survival/titanic_logistic_regression_model.pkl')
+scaler = joblib.load('Titanic Survival/titanic_scaler.pkl')
 
 # Page title
 st.set_page_config(page_title= "Titanic Survival Predictor", page_icon="🚢", layout="centered")
